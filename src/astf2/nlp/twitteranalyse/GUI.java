@@ -1,12 +1,15 @@
 package astf2.nlp.twitteranalyse;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -46,6 +49,7 @@ public class GUI extends Application {
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_CENTER);
         grid.setVgap(10);
+        grid.setHgap(10);
         grid.setPadding(new Insets(10, 25, 25, 25));
 
         Text sceneTitle = new Text("Twitter Search");
@@ -57,6 +61,13 @@ public class GUI extends Application {
 
         TextField queryField = new TextField();
         grid.add(queryField, 1, 1);
+
+        Label city = new Label("City:");
+        //grid.add(city,0,2);
+
+        final ComboBox comboBox = new ComboBox();
+        comboBox.setValue("Unspecified");
+        //grid.add(comboBox,1,2);
 
         Button btn = new Button("Search");
         grid.add(btn, 1, 4);
