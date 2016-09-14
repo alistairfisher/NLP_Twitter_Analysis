@@ -19,7 +19,7 @@ public class TwitterPull {
     public static String search(String s) {
         String s2 = s.replace(" ", "%20"); //remove spaces in string
         String s3 = s.replace("@","%40");
-        //TODO, deal with other symbols in the query, e.g. # and @
+        //TODO, deal with other symbols in the query, e.g. #
         String query_string = (queryprefix.concat(s2)).concat("&count=100"); //adjust count to increase number of results
         HttpURLConnection connection;
         /*String auth = authenticate();
