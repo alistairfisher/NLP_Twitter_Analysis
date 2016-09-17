@@ -63,7 +63,9 @@ public class TwitterPull {
         for (Parameter p : parameters) {
             queryString += "%20";
             queryString += p.name;
-            queryString += "%3A";
+            if (p.separated) {
+                queryString += "%3A";
+            }
             queryString += p.value;
         }
         return search(queryString);

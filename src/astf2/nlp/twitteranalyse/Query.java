@@ -32,19 +32,28 @@ public class Query {
     }
 
     void addStartDate(LocalDate date) {
-        DateTimeFormatter format = DateTimeFormatter.ISO_LOCAL_DATE;
-        String stringDate = date.format(format);
-        parameters.add(new Parameter("since", stringDate));
+        if (date != null) {
+            DateTimeFormatter format = DateTimeFormatter.ISO_LOCAL_DATE;
+            String stringDate = date.format(format);
+            parameters.add(new Parameter("since", stringDate, true));
+        }
     }
 
     void addEndDate(LocalDate date) {
-        DateTimeFormatter format = DateTimeFormatter.ISO_LOCAL_DATE;
-        String stringDate = date.format(format);
-        parameters.add(new Parameter("until", stringDate));
+        if (date != null) {
+            DateTimeFormatter format = DateTimeFormatter.ISO_LOCAL_DATE;
+            String stringDate = date.format(format);
+            parameters.add(new Parameter("until", stringDate, true));
+        }
     }
 
-    void addFilter(String filter) {
-        parameters.add(new Parameter("filter", filter));
+    void addFilters(String filters) {
+        if (filters != null) {
+            String[] separated_filters = filters.split(" ");
+            for (String f : separated_filters) {
+                parameters.add(new Parameter("-", f, false));
+            }
+        }
     }
 
 }

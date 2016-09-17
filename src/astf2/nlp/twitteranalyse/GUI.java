@@ -70,6 +70,11 @@ public class GUI extends Application {
         DatePicker finishDatePicker = new DatePicker();
         grid.add(finishDatePicker, 1, 3);
 
+        Label filterLabel = new Label("Not containing (list):");
+        grid.add(filterLabel, 0, 4);
+        TextField filterField = new TextField();
+        grid.add(filterField, 1, 4);
+
         Label city = new Label("City:");
         //grid.add(city,0,2);
 
@@ -78,22 +83,17 @@ public class GUI extends Application {
         //grid.add(comboBox,1,2);
 
         Button btn = new Button("Search");
-        grid.add(btn, 1, 4);
+        grid.add(btn, 1, 5);
 
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String queryString = queryField.getCharacters().toString();
-                LocalDate beginDate = beginDatePicker.getValue();
-                if (beginDate == null) {
-                    System.out.println("null");
-                }
-                LocalDate finishDate = finishDatePicker.getValue();
+                String queryString = queryField.getText();
                 Query query = new Query(queryString);
-                query.addStartDate(beginDate);
-                query.addEndDate(finishDate);
+                query.addStartDate(beginDatePicker.getValue());
+                query.addEndDate(finishDatePicker.getValue());
+                query.addFilters(filterField.getText());
                 String results = TwitterPull.search(query);
-                System.out.println(results);
                 JSONParser.messagesFromJSON(results);
             }
         });

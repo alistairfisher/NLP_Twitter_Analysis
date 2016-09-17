@@ -7,9 +7,11 @@ package astf2.nlp.twitteranalyse;
 public class Parameter {
     String name;
     String value;
+    boolean separated;
 
-    Parameter(String name, String value) {
+    Parameter(String name, String value, boolean separated) {
         this.name = name;
         this.value = value;
+        this.separated = separated;
     }
 }
