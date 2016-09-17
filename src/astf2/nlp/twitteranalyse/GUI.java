@@ -1,23 +1,21 @@
 package astf2.nlp.twitteranalyse;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 /**
  * Created by alistair on 13/09/2016.
@@ -56,11 +54,21 @@ public class GUI extends Application {
         sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(sceneTitle, 1, 0, 2, 1);
 
-        Label query = new Label("Query:");
-        grid.add(query, 0, 1);
+        Label queryLabel = new Label("Query*:");
+        grid.add(queryLabel, 0, 1);
 
         TextField queryField = new TextField();
         grid.add(queryField, 1, 1);
+
+        Label beginDateText = new Label("Tweets After:");
+        grid.add(beginDateText, 0, 2);
+        DatePicker beginDatePicker = new DatePicker();
+        grid.add(beginDatePicker, 1, 2);
+
+        Label finishDateText = new Label("Tweets Before:");
+        grid.add(finishDateText, 0, 3);
+        DatePicker finishDatePicker = new DatePicker();
+        grid.add(finishDatePicker, 1, 3);
 
         Label city = new Label("City:");
         //grid.add(city,0,2);
@@ -75,12 +83,22 @@ public class GUI extends Application {
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String results = TwitterPull.search(queryField.getCharacters().toString());
+                String queryString = queryField.getCharacters().toString();
+                LocalDate beginDate = beginDatePicker.getValue();
+                if (beginDate == null) {
+                    System.out.println("null");
+                }
+                LocalDate finishDate = finishDatePicker.getValue();
+                Query query = new Query(queryString);
+                query.addStartDate(beginDate);
+                query.addEndDate(finishDate);
+                String results = TwitterPull.search(query);
+                System.out.println(results);
                 JSONParser.messagesFromJSON(results);
             }
         });
 
-        Scene scene = new Scene(grid, 300, 275);
+        Scene scene = new Scene(grid, 500, 275);
         primaryStage.setScene(scene);
         scene.getStylesheets().add(GUI.class.getResource("GUI.css").toExternalForm());
         primaryStage.show();

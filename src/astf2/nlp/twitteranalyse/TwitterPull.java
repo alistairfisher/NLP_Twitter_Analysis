@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Base64;
+import java.util.List;
 
 public class TwitterPull {
 
@@ -54,6 +55,18 @@ public class TwitterPull {
                 connection.disconnect();
             }
         }*/
+    }
+
+    public static String search(Query query) {
+        String queryString = query.getString();
+        List<Parameter> parameters = query.getParameters();
+        for (Parameter p : parameters) {
+            queryString += "%20";
+            queryString += p.name;
+            queryString += "%3A";
+            queryString += p.value;
+        }
+        return search(queryString);
     }
 
     private static String authenticate() { //fetches authentication token used by search
